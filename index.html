@@ -6,7 +6,6 @@
 
   <title>PumpSwap</title>
 
-  <!-- PumpSwap favicon -->
   <link rel="icon" type="image/jpeg" href="images%20(57).jpeg">
 
   <meta name="theme-color" content="#000000">
@@ -26,14 +25,8 @@
     body {
       background: #000;
       color: #fff;
-      font-family:
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        Roboto,
-        Helvetica,
-        Arial,
-        sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Roboto, Helvetica, Arial, sans-serif;
       overflow-x: hidden;
     }
 
@@ -50,9 +43,7 @@
       align-items: center;
       justify-content: center;
       padding: 24px;
-      transition:
-        opacity .5s ease,
-        visibility .5s ease;
+      transition: opacity .5s ease, visibility .5s ease;
     }
 
     #access-gate.unlocked {
@@ -63,7 +54,7 @@
 
     .access-box {
       width: 100%;
-      max-width: 420px;
+      max-width: 450px;
       text-align: center;
     }
 
@@ -73,8 +64,7 @@
       object-fit: cover;
       border-radius: 18px;
       margin-bottom: 28px;
-      box-shadow:
-        0 0 40px rgba(25, 230, 154, .08);
+      box-shadow: 0 0 40px rgba(25, 230, 154, .08);
     }
 
     .access-label {
@@ -90,14 +80,20 @@
       font-size: clamp(30px, 8vw, 42px);
       font-weight: 600;
       letter-spacing: -1.5px;
-      margin-bottom: 12px;
+      margin-bottom: 16px;
     }
 
     .access-subtitle {
       color: #666;
-      font-size: 15px;
-      line-height: 1.6;
+      font-size: 14px;
+      line-height: 1.75;
       margin-bottom: 30px;
+    }
+
+    .access-subtitle strong {
+      color: #19e69a;
+      font-weight: 600;
+      letter-spacing: 4px;
     }
 
     .access-form {
@@ -165,7 +161,7 @@
     }
 
     /* =========================
-       SITE
+       MAIN WEBSITE
        ========================= */
 
     .site {
@@ -252,9 +248,7 @@
       flex-direction: column;
       align-items: center;
       text-align: center;
-      padding:
-        110px 24px
-        80px;
+      padding: 110px 24px 80px;
       position: relative;
     }
 
@@ -599,7 +593,11 @@
       </div>
 
       <div class="access-subtitle">
-        Enter your access code to continue.
+        Three dates. Three doors.<br>
+        One begins with an anniversary.<br>
+        One marks a beginning.<br>
+        One hasn't happened yet.<br><br>
+        <strong>DDMMYYYY</strong>
       </div>
 
       <form class="access-form" id="access-form">
@@ -637,8 +635,6 @@
 
   <div class="site">
 
-    <!-- NAVIGATION -->
-
     <header>
 
       <div class="brand">
@@ -664,8 +660,6 @@
 
     </header>
 
-
-    <!-- HERO -->
 
     <main>
 
@@ -702,8 +696,6 @@
 
       </section>
 
-
-      <!-- CARDS -->
 
       <section class="cards-section">
 
@@ -764,8 +756,6 @@
       </section>
 
 
-      <!-- PROGRESS -->
-
       <section class="progress-section">
 
         <div class="progress-label">
@@ -789,8 +779,6 @@
       </section>
 
 
-      <!-- QUIET MESSAGE -->
-
       <section class="quiet">
 
         <div
@@ -804,8 +792,6 @@
 
     </main>
 
-
-    <!-- FOOTER -->
 
     <footer>
 
@@ -822,22 +808,17 @@
   </div>
 
 
-  <!-- =========================
-       JAVASCRIPT
-       ========================= -->
-
   <script>
 
-    /* -------------------------
+    /* =========================
        ACCESS CODES
-       ------------------------- */
+       ========================= */
 
     const validCodes = [
       "24102024",
       "20032025",
       "19112026"
     ];
-
 
     const gate =
       document.getElementById("access-gate");
@@ -852,67 +833,56 @@
       document.getElementById("access-error");
 
 
-    /*
-      If the visitor already entered
-      a valid code during this browser
-      session, don't show the gate again.
-    */
+    /* Remember access during this browser session */
 
     if (
-      sessionStorage.getItem("pumpswap_access")
-      === "true"
+      sessionStorage.getItem("pumpswap_access") === "true"
     ) {
-
       gate.classList.add("unlocked");
-
     }
 
 
-    form.addEventListener(
-      "submit",
-      function(event) {
+    /* Check entered code */
 
-        event.preventDefault();
+    form.addEventListener("submit", function(event) {
 
-        const enteredCode =
-          input.value.trim();
+      event.preventDefault();
 
+      const enteredCode =
+        input.value.trim();
 
-        if (
-          validCodes.includes(enteredCode)
-        ) {
+      if (
+        validCodes.includes(enteredCode)
+      ) {
 
-          sessionStorage.setItem(
-            "pumpswap_access",
-            "true"
-          );
+        sessionStorage.setItem(
+          "pumpswap_access",
+          "true"
+        );
 
-          error.textContent = "";
+        error.textContent = "";
 
-          gate.classList.add(
-            "unlocked"
-          );
+        gate.classList.add("unlocked");
 
-        } else {
+      } else {
 
-          error.textContent =
-            "Invalid access code.";
+        error.textContent =
+          "Invalid access code.";
 
-          error.classList.add("show");
+        error.classList.add("show");
 
-          input.value = "";
+        input.value = "";
 
-          input.focus();
-
-        }
+        input.focus();
 
       }
-    );
+
+    });
 
 
-    /* -------------------------
-       ROTATING QUIET MESSAGES
-       ------------------------- */
+    /* =========================
+       ROTATING MESSAGES
+       ========================= */
 
     const messages = [
       "Not quite yet.",
@@ -922,37 +892,28 @@
     ];
 
     const quietMessage =
-      document.getElementById(
-        "quiet-message"
-      );
+      document.getElementById("quiet-message");
 
     let messageIndex = 0;
 
 
-    setInterval(
-      function() {
+    setInterval(function() {
 
-        quietMessage.style.opacity = "0";
+      quietMessage.style.opacity = "0";
 
-        setTimeout(
-          function() {
+      setTimeout(function() {
 
-            messageIndex =
-              (messageIndex + 1)
-              % messages.length;
+        messageIndex =
+          (messageIndex + 1) % messages.length;
 
-            quietMessage.textContent =
-              messages[messageIndex];
+        quietMessage.textContent =
+          messages[messageIndex];
 
-            quietMessage.style.opacity = "1";
+        quietMessage.style.opacity = "1";
 
-          },
-          500
-        );
+      }, 500);
 
-      },
-      12000
-    );
+    }, 12000);
 
   </script>
 
