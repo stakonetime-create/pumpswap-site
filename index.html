@@ -3,54 +3,784 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>PumpSwap</title>
+
+    <!-- PumpSwap favicon -->
+    <link rel="icon" type="image/jpeg" href="images%20(57).jpeg">
+
+    <meta name="theme-color" content="#000000">
+    <meta name="description" content="PumpSwap — something is taking shape.">
 
     <style>
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
         }
 
-        html, body {
-            width: 100%;
-            height: 100%;
-            background: #000;
+        html {
+            scroll-behavior: smooth;
         }
 
         body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            font-family: Arial, Helvetica, sans-serif;
-            color: #fff;
-            text-align: center;
+            background: #000;
+            color: #f4f4f4;
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Roboto,
+                Helvetica,
+                Arial,
+                sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
         }
 
-        .coming-soon {
-            font-size: 32px;
-            font-weight: 700;
-            letter-spacing: 2px;
+        /* =========================
+           BACKGROUND
+        ========================= */
+
+        body::before {
+            content: "";
+            position: fixed;
+            width: 700px;
+            height: 700px;
+            left: 50%;
+            top: 32%;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(
+                circle,
+                rgba(0, 255, 170, 0.055) 0%,
+                rgba(0, 255, 170, 0.018) 30%,
+                transparent 70%
+            );
+            pointer-events: none;
+            z-index: -2;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background:
+                linear-gradient(
+                    90deg,
+                    rgba(255,255,255,0.012) 1px,
+                    transparent 1px
+                ),
+                linear-gradient(
+                    rgba(255,255,255,0.012) 1px,
+                    transparent 1px
+                );
+            background-size: 80px 80px;
+            mask-image: radial-gradient(
+                circle at center,
+                black,
+                transparent 75%
+            );
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* =========================
+           NAVIGATION
+        ========================= */
+
+        nav {
+            width: 100%;
+            padding: 28px 6vw;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            text-decoration: none;
+            color: white;
+            font-size: 15px;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+        }
+
+        .brand img {
+            width: 27px;
+            height: 27px;
+            object-fit: cover;
+            border-radius: 7px;
+        }
+
+        .nav-status {
+            font-size: 10px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.35);
+        }
+
+        .status-dot {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            margin-right: 7px;
+            border-radius: 50%;
+            background: #20e89a;
+            box-shadow: 0 0 12px rgba(32,232,154,0.7);
+            animation: breathe 2.5s infinite ease-in-out;
+        }
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .hero {
+            min-height: 78vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 80px 24px 60px;
+            position: relative;
+        }
+
+        .logo-wrap {
+            width: min(270px, 65vw);
+            height: min(270px, 65vw);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 42px;
+            position: relative;
+        }
+
+        .logo-wrap::before {
+            content: "";
+            position: absolute;
+            inset: 8%;
+            border-radius: 50%;
+            background: rgba(0,255,170,0.08);
+            filter: blur(35px);
+            animation: logoGlow 5s infinite ease-in-out;
+        }
+
+        .main-logo {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 28px;
+            filter:
+                drop-shadow(0 0 25px rgba(0,255,170,0.13));
+            animation: float 6s infinite ease-in-out;
+        }
+
+        .eyebrow {
+            color: rgba(255,255,255,0.36);
+            text-transform: uppercase;
+            font-size: 10px;
+            letter-spacing: 0.32em;
             margin-bottom: 20px;
         }
 
-        .ca {
-            font-size: 14px;
-            color: #888;
-            word-break: break-all;
-            max-width: 90%;
+        h1 {
+            font-size: clamp(42px, 10vw, 86px);
+            line-height: 0.95;
+            font-weight: 700;
+            letter-spacing: -0.055em;
+            margin-bottom: 22px;
+        }
+
+        h1 span {
+            color: #20e89a;
+        }
+
+        .tagline {
+            max-width: 500px;
+            color: rgba(255,255,255,0.48);
+            font-size: 16px;
+            line-height: 1.7;
+            font-weight: 400;
+        }
+
+        .coming {
+            margin-top: 35px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            border: 1px solid rgba(32,232,154,0.22);
+            border-radius: 100px;
+            padding: 10px 17px;
+            color: rgba(255,255,255,0.65);
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.24em;
+            background: rgba(32,232,154,0.025);
+        }
+
+        .coming-dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: #20e89a;
+            box-shadow: 0 0 10px #20e89a;
+        }
+
+        /* =========================
+           HALF BUILT SECTION
+        ========================= */
+
+        .section {
+            width: min(1050px, 88%);
+            margin: 0 auto;
+            padding: 80px 0;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 28px;
+        }
+
+        .section-label {
+            color: rgba(255,255,255,0.28);
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: 0.28em;
+        }
+
+        .section-title {
+            font-size: 25px;
+            font-weight: 500;
+            letter-spacing: -0.025em;
+            margin-top: 9px;
+        }
+
+        .unfinished {
+            color: rgba(255,255,255,0.2);
+            font-size: 10px;
+            letter-spacing: 0.12em;
+        }
+
+        /* =========================
+           CARDS
+        ========================= */
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .card {
+            min-height: 180px;
+            padding: 25px;
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 16px;
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(255,255,255,0.035),
+                    rgba(255,255,255,0.008)
+                );
+            position: relative;
+            overflow: hidden;
+            transition:
+                border-color 0.35s ease,
+                transform 0.35s ease,
+                background 0.35s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(32,232,154,0.25);
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(32,232,154,0.045),
+                    rgba(255,255,255,0.008)
+                );
+        }
+
+        .card-number {
+            color: rgba(255,255,255,0.18);
+            font-size: 10px;
+            letter-spacing: 0.12em;
+        }
+
+        .card h3 {
+            margin-top: 45px;
+            font-size: 19px;
+            font-weight: 500;
+        }
+
+        .card p {
+            margin-top: 9px;
+            color: rgba(255,255,255,0.32);
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        .card-status {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            color: rgba(255,255,255,0.25);
+            font-size: 8px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+
+        .card:first-child .card-status {
+            color: rgba(32,232,154,0.65);
+        }
+
+        /* =========================
+           PROGRESS
+        ========================= */
+
+        .progress-box {
+            margin-top: 12px;
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 16px;
+            padding: 27px;
+            background: rgba(255,255,255,0.015);
+        }
+
+        .progress-top {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .progress-name {
+            font-size: 12px;
+            color: rgba(255,255,255,0.55);
+        }
+
+        .progress-state {
+            font-size: 9px;
+            color: #20e89a;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+        }
+
+        .bar {
+            height: 2px;
+            width: 100%;
+            background: rgba(255,255,255,0.08);
+            overflow: hidden;
+        }
+
+        .bar-inner {
+            height: 100%;
+            width: 38%;
+            background: #20e89a;
+            box-shadow: 0 0 15px rgba(32,232,154,0.5);
+            animation: progress 4s infinite ease-in-out;
+        }
+
+        /* =========================
+           MYSTERY TEXT
+        ========================= */
+
+        .quiet {
+            text-align: center;
+            padding: 120px 20px;
+        }
+
+        .quiet-main {
+            font-size: clamp(25px, 6vw, 42px);
+            font-weight: 400;
+            letter-spacing: -0.035em;
+            color: rgba(255,255,255,0.78);
+        }
+
+        .quiet-sub {
+            margin-top: 15px;
+            color: rgba(255,255,255,0.25);
+            font-size: 12px;
+            letter-spacing: 0.12em;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            width: min(1050px, 88%);
+            margin: 0 auto;
+            padding: 40px 0 45px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: rgba(255,255,255,0.2);
+            font-size: 9px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+
+        footer span:last-child {
+            color: rgba(32,232,154,0.45);
+        }
+
+        /* =========================
+           ANIMATIONS
+        ========================= */
+
+        @keyframes breathe {
+            0%, 100% {
+                opacity: 0.35;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes logoGlow {
+            0%, 100% {
+                opacity: 0.35;
+                transform: scale(0.92);
+            }
+            50% {
+                opacity: 0.7;
+                transform: scale(1.05);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-7px);
+            }
+        }
+
+        @keyframes progress {
+            0% {
+                width: 30%;
+            }
+            50% {
+                width: 45%;
+            }
+            100% {
+                width: 38%;
+            }
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 700px) {
+
+            nav {
+                padding: 22px 22px;
+            }
+
+            .nav-status {
+                font-size: 8px;
+            }
+
+            .hero {
+                min-height: 75vh;
+                padding-top: 55px;
+            }
+
+            .logo-wrap {
+                width: 210px;
+                height: 210px;
+                margin-bottom: 32px;
+            }
+
+            h1 {
+                font-size: 48px;
+            }
+
+            .tagline {
+                font-size: 14px;
+                max-width: 330px;
+            }
+
+            .section {
+                width: 90%;
+                padding: 60px 0;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                min-height: 145px;
+            }
+
+            .card h3 {
+                margin-top: 30px;
+            }
+
+            .quiet {
+                padding: 90px 15px;
+            }
+
+            footer {
+                width: 90%;
+                flex-direction: column;
+                gap: 12px;
+                text-align: center;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                scroll-behavior: auto !important;
+            }
         }
     </style>
 </head>
 
 <body>
 
-    <div class="coming-soon">COMING SOON...</div>
+    <!-- =========================
+         NAVIGATION
+    ========================= -->
 
-    <div class="ca">
-        GMk6j2defJhS7F194toqmJNFNhAkbDXhYJo5oR3Rpump
-    </div>
+    <nav>
+        <a href="#" class="brand">
+            <img src="images%20(57).jpeg" alt="PumpSwap">
+            <span>PUMPSWAP</span>
+        </a>
+
+        <div class="nav-status">
+            <span class="status-dot"></span>
+            building
+        </div>
+    </nav>
+
+
+    <!-- =========================
+         HERO
+    ========================= -->
+
+    <main>
+
+        <section class="hero">
+
+            <div class="logo-wrap">
+                <img
+                    class="main-logo"
+                    src="Screenshot_20260922_041749_DEX_Screener.jpg"
+                    alt="PumpSwap"
+                >
+            </div>
+
+            <div class="eyebrow">
+                PUMPSWAP
+            </div>
+
+            <h1>
+                Something is<br>
+                <span>taking shape.</span>
+            </h1>
+
+            <p class="tagline">
+                We're putting the pieces together.
+                There's not much to see yet.
+            </p>
+
+            <div class="coming">
+                <span class="coming-dot"></span>
+                coming soon
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             BUILDING
+        ========================= -->
+
+        <section class="section">
+
+            <div class="section-header">
+                <div>
+                    <div class="section-label">
+                        What's happening
+                    </div>
+
+                    <div class="section-title">
+                        Still being built.
+                    </div>
+                </div>
+
+                <div class="unfinished">
+                    v0.1
+                </div>
+            </div>
+
+
+            <div class="cards">
+
+                <div class="card">
+                    <div class="card-number">01</div>
+
+                    <div class="card-status">
+                        in progress
+                    </div>
+
+                    <h3>Swap</h3>
+
+                    <p>
+                        The first piece is coming together.
+                    </p>
+                </div>
+
+
+                <div class="card">
+                    <div class="card-number">02</div>
+
+                    <div class="card-status">
+                        not yet
+                    </div>
+
+                    <h3>Launch</h3>
+
+                    <p>
+                        There's something else planned here.
+                    </p>
+                </div>
+
+
+                <div class="card">
+                    <div class="card-number">03</div>
+
+                    <div class="card-status">
+                        soon
+                    </div>
+
+                    <h3>More</h3>
+
+                    <p>
+                        We'll fill this in when it's ready.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="progress-box">
+
+                <div class="progress-top">
+
+                    <div class="progress-name">
+                        putting it together
+                    </div>
+
+                    <div class="progress-state">
+                        in progress
+                    </div>
+
+                </div>
+
+                <div class="bar">
+                    <div class="bar-inner"></div>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             QUIET SECTION
+        ========================= -->
+
+        <section class="quiet">
+
+            <div class="quiet-main">
+                Not quite yet.
+            </div>
+
+            <div class="quiet-sub">
+                come back soon
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================
+         FOOTER
+    ========================= -->
+
+    <footer>
+
+        <span>
+            PUMPSWAP
+        </span>
+
+        <span>
+            something is coming
+        </span>
+
+    </footer>
+
+
+    <script>
+        /*
+         * Very subtle random text change.
+         * Keeps the page feeling slightly alive
+         * without turning it into a "hacker" website.
+         */
+
+        const quietMessages = [
+            "Not quite yet.",
+            "Still putting it together.",
+            "Almost.",
+            "We're getting there."
+        ];
+
+        const quietSubtitles = [
+            "come back soon",
+            "more soon",
+            "still building",
+            "see you soon"
+        ];
+
+        const quietMain = document.querySelector(".quiet-main");
+        const quietSub = document.querySelector(".quiet-sub");
+
+        function changeQuietMessage() {
+            const index = Math.floor(
+                Math.random() * quietMessages.length
+            );
+
+            quietMain.style.opacity = "0";
+
+            setTimeout(() => {
+                quietMain.textContent = quietMessages[index];
+                quietSub.textContent = quietSubtitles[index];
+
+                quietMain.style.opacity = "1";
+            }, 500);
+        }
+
+        quietMain.style.transition = "opacity 0.5s ease";
+
+        setInterval(changeQuietMessage, 12000);
+    </script>
 
 </body>
 </html>
